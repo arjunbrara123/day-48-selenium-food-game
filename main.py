@@ -11,8 +11,9 @@ cookie = driver.find_element_by_id('bigCookie')
 for i in range(20):
     t_end = time() + 5
     while time() < t_end:
-        cookie.click()
-    for prod_no in range(17):
+        for j in range(100):
+            cookie.click()
+    for prod_no in range(18):
         prod = driver.find_element_by_xpath(f'//*[@id="product{17 - prod_no}"]')
         prod_text = prod.text
         if len(prod_text) != 0:
