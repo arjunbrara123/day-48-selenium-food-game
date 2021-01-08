@@ -1,23 +1,25 @@
 from selenium import webdriver
+from interruptingcow import timeout
+from time import time
 
 chrome_driver_path = "chromedriver.exe"
 driver = webdriver.Chrome(executable_path=chrome_driver_path)
-driver.get("https://www.python.org/")
+driver.get("https://orteil.dashnet.org/cookieclicker/")
 
-events = {}
+cookie = driver.find_element_by_id('bigCookie')
 
-for event_no in range(9):
-    try:
-        event_date = driver.find_element_by_xpath(f'//*[@id="content"]/div/section/div[2]/div[2]/div/ul/li[{event_no+1}]/time').text
-        event_name = driver.find_element_by_xpath(f'//*[@id="content"]/div/section/div[2]/div[2]/div/ul/li[{event_no+1}]/a').text
-        events[event_no] = {
-            "time": event_date,
-            "name": event_name
-        }
-    except:
-        break
+for i in range(20):
+    t_end = time() + 5
+    while time() < t_end:
+        cookie.click()
+    for prod_no in range(17):
+        prod = driver.find_element_by_xpath(f'//*[@id="product{17 - prod_no}"]')
+        prod_text = prod.text
+        if len(prod_text) != 0:
+            prod_desc = prod_text.split('\n')
+            if prod.text[:3] != "???":
+                prod.click()
 
-print(events)
+prods = driver.find_elements_by_class_name('product unlocked enabled')
 
-driver.quit()
-
+breakpoint()
